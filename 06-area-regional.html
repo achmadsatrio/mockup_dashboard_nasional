@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Area & Regional Management - National/Regional Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .modal-visible {
+      display: flex !important;
+    }
+    
+    .modal-hidden {
+      display: none;
+    }
+    
+    .view-toggle {
+      display: flex;
+      gap: 8px;
+      background-color: var(--gray-100);
+      padding: 4px;
+      border-radius: 6px;
+    }
+    
+    .view-toggle-btn {
+      padding: 6px 16px;
+      border: none;
+      background: transparent;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--gray-600);
+      transition: all 0.2s;
+    }
+    
+    .view-toggle-btn.active {
+      background-color: white;
+      color: var(--gray-900);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .regional-card {
+      background-color: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    
+    .regional-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--gray-200);
+    }
+    
+    .regional-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--gray-900);
+    }
+    
+    .area-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    
+    .area-card {
+      background-color: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: 6px;
+      padding: 16px;
+      transition: all 0.2s;
+    }
+    
+    .area-card:hover {
+      border-color: var(--primary-color);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .area-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 12px;
+    }
+    
+    .area-name {
+      font-weight: 600;
+      color: var(--gray-900);
+      font-size: 16px;
+    }
+    
+    .area-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .area-stat {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+    }
+    
+    .area-stat-label {
+      color: var(--gray-600);
+    }
+    
+    .area-stat-value {
+      font-weight: 500;
+      color: var(--gray-900);
+    }
+    
+    .area-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--gray-200);
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          📊 Taraswin Sales
+        </div>
+        <div style="font-size: 12px; color: var(--gray-400); margin-top: 4px;">
+          National Dashboard
+        </div>
+      </div>
+      
+      <nav class="sidebar-menu">
+        <div class="menu-section">
+          <a href="02-dashboard-home.html" class="menu-item">
+            <span class="menu-icon">🏠</span>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        
+        <div class="menu-section">
+          <div class="menu-section-title">Master Data</div>
+          <a href="03-channel-management.html" class="menu-item">
+            <span class="menu-icon">📋</span>
+            <span>Channels</span>
+          </a>
+          <a href="04-product-management.html" class="menu-item">
+            <span class="menu-icon">📦</span>
+            <span>Products</span>
+          </a>
+          <a href="05-roles-permissions.html" class="menu-item">
+            <span class="menu-icon">🔐</span>
+            <span>Roles & Permissions</span>
+          </a>
+          <a href="06-area-regional.html" class="menu-item active">
+            <span class="menu-icon">🌍</span>
+            <span>Areas & Regions</span>
+          </a>
+        </div>
+        
+        <div class="menu-section">
+          <div class="menu-section-title">Reports</div>
+          <a href="07-reports.html" class="menu-item">
+            <span class="menu-icon">📊</span>
+            <span>Sales Reports</span>
+          </a>
+        </div>
+      </nav>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Navigation -->
+      <nav class="top-nav">
+        <div class="breadcrumb">
+          <a href="02-dashboard-home.html" class="breadcrumb-item">Dashboard</a>
+          <span class="breadcrumb-separator">/</span>
+          <a href="#" class="breadcrumb-item">Master Data</a>
+          <span class="breadcrumb-separator">/</span>
+          <span class="breadcrumb-item">Areas & Regions</span>
+        </div>
+        
+        <div class="top-nav-actions">
+          <div class="notification-icon">
+            <span>🔔</span>
+          </div>
+          
+          <div class="user-profile">
+            <div class="user-avatar">AN</div>
+            <div>
+              <div style="font-size: 14px; font-weight: 500;">Admin National</div>
+              <div style="font-size: 12px; color: var(--gray-500);">National Level</div>
+            </div>
+            <span style="color: var(--gray-400);">▼</span>
+          </div>
+        </div>
+      </nav>
+      
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Area & Regional Management</h1>
+            <p class="page-subtitle">Manage regional and area hierarchies across the national network</p>
+          </div>
+          <div class="page-actions">
+            <div class="view-toggle">
+              <button class="view-toggle-btn active">Card View</button>
+              <button class="view-toggle-btn">List View</button>
+            </div>
+            <button class="btn btn-primary" onclick="document.getElementById('modalAddArea').classList.add('modal-visible')">
+              <span>+</span> Add Area
+            </button>
+          </div>
+        </div>
+        
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <input type="text" class="search-input" placeholder="Search areas or regions...">
+          <select class="form-select" style="width: 180px;">
+            <option>All Regions</option>
+            <option>Jabodetabek</option>
+            <option>Jawa Barat</option>
+            <option>Jawa Tengah</option>
+            <option>Jawa Timur</option>
+            <option>Sumatera</option>
+          </select>
+          <select class="form-select" style="width: 150px;">
+            <option>All Status</option>
+            <option>Active</option>
+            <option>Inactive</option>
+          </select>
+        </div>
+        
+        <!-- Regional 1: Jabodetabek -->
+        <div class="regional-card">
+          <div class="regional-header">
+            <div>
+              <div class="regional-name">🌆 Regional Jabodetabek</div>
+              <div style="font-size: 13px; color: var(--gray-600); margin-top: 4px;">
+                Jakarta, Bogor, Depok, Tangerang, Bekasi
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <div style="text-align: center;">
+                <div style="font-size: 24px; font-weight: 700; color: var(--primary-color);">6</div>
+                <div style="font-size: 12px; color: var(--gray-600);">Areas</div>
+              </div>
+              <div style="text-align: center;">
+                <div style="font-size: 24px; font-weight: 700; color: var(--gray-900);">1,247</div>
+                <div style="font-size: 12px; color: var(--gray-600);">Outlets</div>
+              </div>
+              <div style="text-align: center;">
+                <div style="font-size: 24px; font-weight: 700; color: var(--gray-900);">892</div>
+                <div style="font-size: 12px; color: var(--gray-600);">Products</div>
+              </div>
+              <button class="btn btn-sm btn-secondary">Edit Regional</button>
+            </div>
+          </div>
+          
+          <div class="area-grid">
+            <!-- Area Card 1 -->
+            <div class="area-card">
+              <div class="area-card-header">
+                <div>
+                  <div class="area-name">Jakarta Selatan</div>
+                  <span class="badge badge-success" style="margin-top: 4px;">Active</span>
+                </div>
+              </div>
+              
+              <div class="area-stats">
+                <div class="area-stat">
+                  <span class="area-stat-label">Outlets</span>
+                  <span class="area-stat-value">324</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Active Products</span>
+                  <span class="area-stat-value">856</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Users</span>
+                  <span class="area-stat-value">45</span>
+                </div>
+              </div>
+              
+              <div class="area-actions">
+                <button class="btn btn-sm btn-secondary" style="flex: 1;">Edit</button>
+                <button class="btn btn-sm btn-primary" style="flex: 1;">View Dashboard</button>
+              </div>
+            </div>
+            
+            <!-- Area Card 2 -->
+            <div class="area-card">
+              <div class="area-card-header">
+                <div>
+                  <div class="area-name">Jakarta Barat</div>
+                  <span class="badge badge-success" style="margin-top: 4px;">Active</span>
+                </div>
+              </div>
+              
+              <div class="area-stats">
+                <div class="area-stat">
+                  <span class="area-stat-label">Outlets</span>
+                  <span class="area-stat-value">298</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Active Products</span>
+                  <span class="area-stat-value">842</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Users</span>
+                  <span class="area-stat-value">38</span>
+                </div>
+              </div>
+              
+              <div class="area-actions">
+                <button class="btn btn-sm btn-secondary" style="flex: 1;">Edit</button>
+                <button class="btn btn-sm btn-primary" style="flex: 1;">View Dashboard</button>
+              </div>
+            </div>
+            
+            <!-- Area Card 3 -->
+            <div class="area-card">
+              <div class="area-card-header">
+                <div>
+                  <div class="area-name">Jakarta Pusat</div>
+                  <span class="badge badge-success" style="margin-top: 4px;">Active</span>
+                </div>
+              </div>
+              
+              <div class="area-stats">
+                <div class="area-stat">
+                  <span class="area-stat-label">Outlets</span>
+                  <span class="area-stat-value">187</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Active Products</span>
+                  <span class="area-stat-value">823</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Users</span>
+                  <span class="area-stat-value">28</span>
+                </div>
+              </div>
+              
+              <div class="area-actions">
+                <button class="btn btn-sm btn-secondary" style="flex: 1;">Edit</button>
+                <button class="btn btn-sm btn-primary" style="flex: 1;">View Dashboard</button>
+              </div>
+            </div>
+            
+            <!-- Area Card 4 -->
+            <div class="area-card">
+              <div class="area-card-header">
+                <div>
+                  <div class="area-name">Tangerang</div>
+                  <span class="badge badge-success" style="margin-top: 4px;">Active</span>
+                </div>
+              </div>
+              
+              <div class="area-stats">
+                <div class="area-stat">
+                  <span class="area-stat-label">Outlets</span>
+                  <span class="area-stat-value">215</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Active Products</span>
+                  <span class="area-stat-value">798</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Users</span>
+                  <span class="area-stat-value">32</span>
+                </div>
+              </div>
+              
+              <div class="area-actions">
+                <button class="btn btn-sm btn-secondary" style="flex: 1;">Edit</button>
+                <button class="btn btn-sm btn-primary" style="flex: 1;">View Dashboard</button>
+              </div>
+            </div>
+            
+            <!-- Area Card 5 -->
+            <div class="area-card">
+              <div class="area-card-header">
+                <div>
+                  <div class="area-name">Bekasi</div>
+                  <span class="badge badge-success" style="margin-top: 4px;">Active</span>
+                </div>
+              </div>
+              
+              <div class="area-stats">
+                <div class="area-stat">
+                  <span class="area-stat-label">Outlets</span>
+                  <span class="area-stat-value">143</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Active Products</span>
+                  <span class="area-stat-value">765</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Users</span>
+                  <span class="area-stat-value">24</span>
+                </div>
+              </div>
+              
+              <div class="area-actions">
+                <button class="btn btn-sm btn-secondary" style="flex: 1;">Edit</button>
+                <button class="btn btn-sm btn-primary" style="flex: 1;">View Dashboard</button>
+              </div>
+            </div>
+            
+            <!-- Area Card 6 -->
+            <div class="area-card">
+              <div class="area-card-header">
+                <div>
+                  <div class="area-name">Depok</div>
+                  <span class="badge badge-warning" style="margin-top: 4px;">Inactive</span>
+                </div>
+              </div>
+              
+              <div class="area-stats">
+                <div class="area-stat">
+                  <span class="area-stat-label">Outlets</span>
+                  <span class="area-stat-value">80</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Active Products</span>
+                  <span class="area-stat-value">0</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Users</span>
+                  <span class="area-stat-value">0</span>
+                </div>
+              </div>
+              
+              <div class="area-actions">
+                <button class="btn btn-sm btn-secondary" style="flex: 1;">Edit</button>
+                <button class="btn btn-sm btn-success" style="flex: 1;">Activate</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Regional 2: Jawa Barat -->
+        <div class="regional-card">
+          <div class="regional-header">
+            <div>
+              <div class="regional-name">🏔️ Regional Jawa Barat</div>
+              <div style="font-size: 13px; color: var(--gray-600); margin-top: 4px;">
+                Bandung, Cirebon, Sukabumi, Bogor
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <div style="text-align: center;">
+                <div style="font-size: 24px; font-weight: 700; color: var(--primary-color);">4</div>
+                <div style="font-size: 12px; color: var(--gray-600);">Areas</div>
+              </div>
+              <div style="text-align: center;">
+                <div style="font-size: 24px; font-weight: 700; color: var(--gray-900);">856</div>
+                <div style="font-size: 12px; color: var(--gray-600);">Outlets</div>
+              </div>
+              <div style="text-align: center;">
+                <div style="font-size: 24px; font-weight: 700; color: var(--gray-900);">734</div>
+                <div style="font-size: 12px; color: var(--gray-600);">Products</div>
+              </div>
+              <button class="btn btn-sm btn-secondary">Edit Regional</button>
+            </div>
+          </div>
+          
+          <div class="area-grid">
+            <!-- Area Cards for Jawa Barat -->
+            <div class="area-card">
+              <div class="area-card-header">
+                <div>
+                  <div class="area-name">Bandung</div>
+                  <span class="badge badge-success" style="margin-top: 4px;">Active</span>
+                </div>
+              </div>
+              
+              <div class="area-stats">
+                <div class="area-stat">
+                  <span class="area-stat-label">Outlets</span>
+                  <span class="area-stat-value">445</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Active Products</span>
+                  <span class="area-stat-value">734</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Users</span>
+                  <span class="area-stat-value">52</span>
+                </div>
+              </div>
+              
+              <div class="area-actions">
+                <button class="btn btn-sm btn-secondary" style="flex: 1;">Edit</button>
+                <button class="btn btn-sm btn-primary" style="flex: 1;">View Dashboard</button>
+              </div>
+            </div>
+            
+            <div class="area-card">
+              <div class="area-card-header">
+                <div>
+                  <div class="area-name">Cirebon</div>
+                  <span class="badge badge-success" style="margin-top: 4px;">Active</span>
+                </div>
+              </div>
+              
+              <div class="area-stats">
+                <div class="area-stat">
+                  <span class="area-stat-label">Outlets</span>
+                  <span class="area-stat-value">187</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Active Products</span>
+                  <span class="area-stat-value">698</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Users</span>
+                  <span class="area-stat-value">28</span>
+                </div>
+              </div>
+              
+              <div class="area-actions">
+                <button class="btn btn-sm btn-secondary" style="flex: 1;">Edit</button>
+                <button class="btn btn-sm btn-primary" style="flex: 1;">View Dashboard</button>
+              </div>
+            </div>
+            
+            <div class="area-card">
+              <div class="area-card-header">
+                <div>
+                  <div class="area-name">Sukabumi</div>
+                  <span class="badge badge-success" style="margin-top: 4px;">Active</span>
+                </div>
+              </div>
+              
+              <div class="area-stats">
+                <div class="area-stat">
+                  <span class="area-stat-label">Outlets</span>
+                  <span class="area-stat-value">124</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Active Products</span>
+                  <span class="area-stat-value">645</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Users</span>
+                  <span class="area-stat-value">18</span>
+                </div>
+              </div>
+              
+              <div class="area-actions">
+                <button class="btn btn-sm btn-secondary" style="flex: 1;">Edit</button>
+                <button class="btn btn-sm btn-primary" style="flex: 1;">View Dashboard</button>
+              </div>
+            </div>
+            
+            <div class="area-card">
+              <div class="area-card-header">
+                <div>
+                  <div class="area-name">Bogor</div>
+                  <span class="badge badge-success" style="margin-top: 4px;">Active</span>
+                </div>
+              </div>
+              
+              <div class="area-stats">
+                <div class="area-stat">
+                  <span class="area-stat-label">Outlets</span>
+                  <span class="area-stat-value">100</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Active Products</span>
+                  <span class="area-stat-value">612</span>
+                </div>
+                <div class="area-stat">
+                  <span class="area-stat-label">Users</span>
+                  <span class="area-stat-value">15</span>
+                </div>
+              </div>
+              
+              <div class="area-actions">
+                <button class="btn btn-sm btn-secondary" style="flex: 1;">Edit</button>
+                <button class="btn btn-sm btn-primary" style="flex: 1;">View Dashboard</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Regional 3: Jawa Timur (Collapsed Example) -->
+        <div class="regional-card">
+          <div class="regional-header">
+            <div>
+              <div class="regional-name">🌾 Regional Jawa Timur</div>
+              <div style="font-size: 13px; color: var(--gray-600); margin-top: 4px;">
+                Surabaya, Malang, Sidoarjo
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <div style="text-align: center;">
+                <div style="font-size: 24px; font-weight: 700; color: var(--primary-color);">3</div>
+                <div style="font-size: 12px; color: var(--gray-600);">Areas</div>
+              </div>
+              <div style="text-align: center;">
+                <div style="font-size: 24px; font-weight: 700; color: var(--gray-900);">612</div>
+                <div style="font-size: 12px; color: var(--gray-600);">Outlets</div>
+              </div>
+              <div style="text-align: center;">
+                <div style="font-size: 24px; font-weight: 700; color: var(--gray-900);">689</div>
+                <div style="font-size: 12px; color: var(--gray-600);">Products</div>
+              </div>
+              <button class="btn btn-sm btn-secondary">Edit Regional</button>
+            </div>
+          </div>
+          
+          <div style="padding: 12px; text-align: center; color: var(--gray-500); font-size: 14px;">
+            Click to expand and view 3 areas...
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Modal: Add Area -->
+  <div id="modalAddArea" class="modal-overlay modal-hidden" onclick="if(event.target === this) this.classList.remove('modal-visible')">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Add New Area</h2>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Parent Regional *</label>
+          <select class="form-select">
+            <option>Select Regional</option>
+            <option>Jabodetabek</option>
+            <option>Jawa Barat</option>
+            <option>Jawa Tengah</option>
+            <option>Jawa Timur</option>
+            <option>Sumatera Utara</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Area Name *</label>
+          <input type="text" class="form-control" placeholder="Enter area name">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Area Code *</label>
+          <input type="text" class="form-control" placeholder="e.g., JKT-SEL">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Contact Email</label>
+          <input type="email" class="form-control" placeholder="area@example.com">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Contact Phone</label>
+          <input type="tel" class="form-control" placeholder="+62">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Address</label>
+          <textarea class="form-control" rows="3" placeholder="Full address..."></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Status *</label>
+          <select class="form-select">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="document.getElementById('modalAddArea').classList.remove('modal-visible')">Cancel</button>
+        <button class="btn btn-primary">Create Area</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

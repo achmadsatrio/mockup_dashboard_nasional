@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roles & Permissions - National/Regional Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .modal-visible {
+      display: flex !important;
+    }
+    
+    .modal-hidden {
+      display: none;
+    }
+    
+    .permission-group {
+      margin-bottom: 20px;
+      border: 1px solid var(--gray-200);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    
+    .permission-group-header {
+      background-color: var(--gray-50);
+      padding: 12px 16px;
+      font-weight: 600;
+      color: var(--gray-900);
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .permission-group-body {
+      padding: 12px 16px;
+    }
+    
+    .permission-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0;
+    }
+    
+    .permission-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+    }
+    
+    .permission-label {
+      flex: 1;
+      color: var(--gray-700);
+    }
+    
+    .permission-description {
+      font-size: 12px;
+      color: var(--gray-500);
+      margin-left: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          📊 Taraswin Sales
+        </div>
+        <div style="font-size: 12px; color: var(--gray-400); margin-top: 4px;">
+          National Dashboard
+        </div>
+      </div>
+      
+      <nav class="sidebar-menu">
+        <div class="menu-section">
+          <a href="02-dashboard-home.html" class="menu-item">
+            <span class="menu-icon">🏠</span>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        
+        <div class="menu-section">
+          <div class="menu-section-title">Master Data</div>
+          <a href="03-channel-management.html" class="menu-item">
+            <span class="menu-icon">📋</span>
+            <span>Channels</span>
+          </a>
+          <a href="04-product-management.html" class="menu-item">
+            <span class="menu-icon">📦</span>
+            <span>Products</span>
+          </a>
+          <a href="05-roles-permissions.html" class="menu-item active">
+            <span class="menu-icon">🔐</span>
+            <span>Roles & Permissions</span>
+          </a>
+          <a href="06-area-regional.html" class="menu-item">
+            <span class="menu-icon">🌍</span>
+            <span>Areas & Regions</span>
+          </a>
+        </div>
+        
+        <div class="menu-section">
+          <div class="menu-section-title">Reports</div>
+          <a href="07-reports.html" class="menu-item">
+            <span class="menu-icon">📊</span>
+            <span>Sales Reports</span>
+          </a>
+        </div>
+      </nav>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Navigation -->
+      <nav class="top-nav">
+        <div class="breadcrumb">
+          <a href="02-dashboard-home.html" class="breadcrumb-item">Dashboard</a>
+          <span class="breadcrumb-separator">/</span>
+          <a href="#" class="breadcrumb-item">Master Data</a>
+          <span class="breadcrumb-separator">/</span>
+          <span class="breadcrumb-item">Roles & Permissions</span>
+        </div>
+        
+        <div class="top-nav-actions">
+          <div class="notification-icon">
+            <span>🔔</span>
+          </div>
+          
+          <div class="user-profile">
+            <div class="user-avatar">AN</div>
+            <div>
+              <div style="font-size: 14px; font-weight: 500;">Admin National</div>
+              <div style="font-size: 12px; color: var(--gray-500);">National Level</div>
+            </div>
+            <span style="color: var(--gray-400);">▼</span>
+          </div>
+        </div>
+      </nav>
+      
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Roles & Permissions Management</h1>
+            <p class="page-subtitle">Manage roles and permissions for national and area-specific access control</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-primary" onclick="document.getElementById('modalAddRole').classList.add('modal-visible')">
+              <span>+</span> Add Role
+            </button>
+          </div>
+        </div>
+        
+        <!-- Scope Tabs -->
+        <div class="tabs">
+          <div class="tab-item active">National Roles</div>
+          <div class="tab-item">Area Roles</div>
+          <div class="tab-item">All Roles</div>
+        </div>
+        
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <input type="text" class="search-input" placeholder="Search roles...">
+          <button class="btn btn-secondary">
+            <span>🔍</span> Search
+          </button>
+        </div>
+        
+        <!-- Roles Table -->
+        <div class="card">
+          <div class="card-body" style="padding: 0;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Role Name</th>
+                  <th>Scope</th>
+                  <th>Assigned Areas</th>
+                  <th>Permissions</th>
+                  <th>Users</th>
+                  <th style="width: 180px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div style="font-weight: 500; color: var(--gray-900);">Super Admin</div>
+                    <div style="font-size: 12px; color: var(--gray-500);">Full system access</div>
+                  </td>
+                  <td>
+                    <span class="badge badge-primary">National</span>
+                  </td>
+                  <td>
+                    <span style="font-size: 13px; color: var(--gray-600);">All Areas</span>
+                  </td>
+                  <td>
+                    <span class="badge badge-success">All (48)</span>
+                  </td>
+                  <td>
+                    <span style="font-weight: 500;">5</span>
+                  </td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="btn btn-sm btn-secondary" onclick="document.getElementById('modalViewRole').classList.add('modal-visible')">View</button>
+                      <button class="btn btn-sm btn-secondary">Edit</button>
+                    </div>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <div style="font-weight: 500; color: var(--gray-900);">National Manager</div>
+                    <div style="font-size: 12px; color: var(--gray-500);">National level management</div>
+                  </td>
+                  <td>
+                    <span class="badge badge-primary">National</span>
+                  </td>
+                  <td>
+                    <span style="font-size: 13px; color: var(--gray-600);">All Areas</span>
+                  </td>
+                  <td>
+                    <span class="badge badge-warning">32</span>
+                  </td>
+                  <td>
+                    <span style="font-weight: 500;">12</span>
+                  </td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="btn btn-sm btn-secondary">View</button>
+                      <button class="btn btn-sm btn-secondary" onclick="document.getElementById('modalEditRole').classList.add('modal-visible')">Edit</button>
+                    </div>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <div style="font-weight: 500; color: var(--gray-900);">Product Manager</div>
+                    <div style="font-size: 12px; color: var(--gray-500);">Manage products nationally</div>
+                  </td>
+                  <td>
+                    <span class="badge badge-primary">National</span>
+                  </td>
+                  <td>
+                    <span style="font-size: 13px; color: var(--gray-600);">All Areas</span>
+                  </td>
+                  <td>
+                    <span class="badge badge-warning">18</span>
+                  </td>
+                  <td>
+                    <span style="font-weight: 500;">8</span>
+                  </td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="btn btn-sm btn-secondary">View</button>
+                      <button class="btn btn-sm btn-secondary">Edit</button>
+                    </div>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <div style="font-weight: 500; color: var(--gray-900);">Regional Supervisor</div>
+                    <div style="font-size: 12px; color: var(--gray-500);">Regional oversight</div>
+                  </td>
+                  <td>
+                    <span class="badge badge-primary">National</span>
+                  </td>
+                  <td>
+                    <span style="font-size: 13px; color: var(--gray-600);">All Areas</span>
+                  </td>
+                  <td>
+                    <span class="badge badge-warning">24</span>
+                  </td>
+                  <td>
+                    <span style="font-weight: 500;">18</span>
+                  </td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="btn btn-sm btn-secondary">View</button>
+                      <button class="btn btn-sm btn-secondary">Edit</button>
+                    </div>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <div style="font-weight: 500; color: var(--gray-900);">Report Viewer</div>
+                    <div style="font-size: 12px; color: var(--gray-500);">View reports only</div>
+                  </td>
+                  <td>
+                    <span class="badge badge-primary">National</span>
+                  </td>
+                  <td>
+                    <span style="font-size: 13px; color: var(--gray-600);">All Areas</span>
+                  </td>
+                  <td>
+                    <span class="badge badge-warning">8</span>
+                  </td>
+                  <td>
+                    <span style="font-weight: 500;">25</span>
+                  </td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="btn btn-sm btn-secondary">View</button>
+                      <button class="btn btn-sm btn-secondary">Edit</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <!-- Pagination -->
+            <div class="pagination">
+              <div class="pagination-info">
+                Showing 5 national roles
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Modal: Add Role -->
+  <div id="modalAddRole" class="modal-overlay modal-hidden" onclick="if(event.target === this) this.classList.remove('modal-visible')">
+    <div class="modal" style="max-width: 700px;">
+      <div class="modal-header">
+        <h2 class="modal-title">Create New Role</h2>
+      </div>
+      <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+        <!-- Role Information -->
+        <div style="background-color: var(--gray-50); padding: 16px; border-radius: 6px; margin-bottom: 24px;">
+          <div class="form-group">
+            <label class="form-label">Role Name *</label>
+            <input type="text" class="form-control" placeholder="Enter role name">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" rows="2" placeholder="Brief description of this role..."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Scope *</label>
+            <div style="display: flex; gap: 16px;">
+              <label class="form-checkbox">
+                <input type="radio" name="scope" value="national" checked>
+                <span>National (available in all areas)</span>
+              </label>
+              <label class="form-checkbox">
+                <input type="radio" name="scope" value="area">
+                <span>Area-specific</span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="form-group" id="areaSelection" style="display: none;">
+            <label class="form-label">Assign to Areas</label>
+            <select class="form-select" multiple size="4">
+              <option>Jakarta Selatan</option>
+              <option>Jakarta Barat</option>
+              <option>Bandung</option>
+              <option>Surabaya</option>
+              <option>Semarang</option>
+              <option>Medan</option>
+            </select>
+            <div style="font-size: 12px; color: var(--gray-500); margin-top: 4px;">
+              Hold Ctrl/Cmd to select multiple areas
+            </div>
+          </div>
+        </div>
+        
+        <div style="background-color: #DBEAFE; padding: 12px; border-radius: 6px; margin-bottom: 16px; font-size: 13px; color: #1E40AF;">
+          ℹ️ National roles automatically appear in all areas. Area-specific roles only appear in their assigned areas.
+        </div>
+        
+        <!-- Permissions -->
+        <div style="font-weight: 600; margin-bottom: 16px; color: var(--gray-900); font-size: 16px;">
+          Permissions
+        </div>
+        
+        <!-- Master Data Permissions -->
+        <div class="permission-group">
+          <div class="permission-group-header">
+            <input type="checkbox" id="checkAllMaster">
+            <label for="checkAllMaster">Master Data Management</label>
+          </div>
+          <div class="permission-group-body">
+            <div class="permission-item">
+              <input type="checkbox" id="perm1">
+              <label for="perm1" class="permission-label">Create Products</label>
+            </div>
+            <div class="permission-item">
+              <input type="checkbox" id="perm2">
+              <label for="perm2" class="permission-label">Edit Products</label>
+            </div>
+            <div class="permission-item">
+              <input type="checkbox" id="perm3">
+              <label for="perm3" class="permission-label">Delete Products</label>
+            </div>
+            <div class="permission-item">
+              <input type="checkbox" id="perm4">
+              <label for="perm4" class="permission-label">View Products</label>
+            </div>
+            <div class="permission-item">
+              <input type="checkbox" id="perm5">
+              <label for="perm5" class="permission-label">Manage Channels</label>
+            </div>
+            <div class="permission-item">
+              <input type="checkbox" id="perm6">
+              <label for="perm6" class="permission-label">Manage Outlets</label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Operational Permissions -->
+        <div class="permission-group">
+          <div class="permission-group-header">
+            <input type="checkbox" id="checkAllOperational">
+            <label for="checkAllOperational">Operational</label>
+          </div>
+          <div class="permission-group-body">
+            <div class="permission-item">
+              <input type="checkbox" id="perm7">
+              <label for="perm7" class="permission-label">Approve Transactions</label>
+            </div>
+            <div class="permission-item">
+              <input type="checkbox" id="perm8">
+              <label for="perm8" class="permission-label">Manage Stock</label>
+            </div>
+            <div class="permission-item">
+              <input type="checkbox" id="perm9">
+              <label for="perm9" class="permission-label">Loading/Unloading Approval</label>
+            </div>
+            <div class="permission-item">
+              <input type="checkbox" id="perm10">
+              <label for="perm10" class="permission-label">Manage Employee Schedules</label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Reports Permissions -->
+        <div class="permission-group">
+          <div class="permission-group-header">
+            <input type="checkbox" id="checkAllReports">
+            <label for="checkAllReports">Reports & Analytics</label>
+          </div>
+          <div class="permission-group-body">
+            <div class="permission-item">
+              <input type="checkbox" id="perm11">
+              <label for="perm11" class="permission-label">View Sales Reports</label>
+            </div>
+            <div class="permission-item">
+              <input type="checkbox" id="perm12">
+              <label for="perm12" class="permission-label">Export Reports</label>
+            </div>
+            <div class="permission-item">
+              <input type="checkbox" id="perm13">
+              <label for="perm13" class="permission-label">View Product Reports</label>
+            </div>
+            <div class="permission-item">
+              <input type="checkbox" id="perm14">
+              <label for="perm14" class="permission-label">View Employee Reports</label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- User Management Permissions -->
+        <div class="permission-group">
+          <div class="permission-group-header">
+            <input type="checkbox" id="checkAllUsers">
+            <label for="checkAllUsers">User Management</label>
+          </div>
+          <div class="permission-group-body">
+            <div class="permission-item">
+              <input type="checkbox" id="perm15">
+              <label for="perm15" class="permission-label">Create Users</label>
+            </div>
+            <div class="permission-item">
+              <input type="checkbox" id="perm16">
+              <label for="perm16" class="permission-label">Edit Users</label>
+            </div>
+            <div class="permission-item">
+              <input type="checkbox" id="perm17">
+              <label for="perm17" class="permission-label">Delete Users</label>
+            </div>
+            <div class="permission-item">
+              <input type="checkbox" id="perm18">
+              <label for="perm18" class="permission-label">Assign Roles</label>
+            </div>
+            <div class="permission-item">
+              <input type="checkbox" id="perm19">
+              <label for="perm19" class="permission-label">Manage Roles & Permissions</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="document.getElementById('modalAddRole').classList.remove('modal-visible')">Cancel</button>
+        <button class="btn btn-primary">Create Role</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal: View Role -->
+  <div id="modalViewRole" class="modal-overlay modal-hidden" onclick="if(event.target === this) this.classList.remove('modal-visible')">
+    <div class="modal" style="max-width: 700px;">
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title">Super Admin</h2>
+          <div style="font-size: 13px; color: var(--gray-600); margin-top: 4px;">
+            <span class="badge badge-primary">National</span>
+            Full system access
+          </div>
+        </div>
+      </div>
+      <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+        <!-- Role Information -->
+        <div style="background-color: var(--gray-50); padding: 16px; border-radius: 6px; margin-bottom: 24px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div>
+              <div style="font-size: 12px; color: var(--gray-600); margin-bottom: 4px;">Scope</div>
+              <div style="font-weight: 500;">National (All Areas)</div>
+            </div>
+            <div>
+              <div style="font-size: 12px; color: var(--gray-600); margin-bottom: 4px;">Total Users</div>
+              <div style="font-weight: 500;">5 users assigned</div>
+            </div>
+            <div>
+              <div style="font-size: 12px; color: var(--gray-600); margin-bottom: 4px;">Total Permissions</div>
+              <div style="font-weight: 500;">48 permissions</div>
+            </div>
+            <div>
+              <div style="font-size: 12px; color: var(--gray-600); margin-bottom: 4px;">Created</div>
+              <div style="font-weight: 500;">2025-01-15</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Permissions List -->
+        <div style="font-weight: 600; margin-bottom: 16px; color: var(--gray-900);">
+          Permissions (48)
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div style="padding: 8px; background-color: var(--gray-50); border-radius: 4px; font-size: 13px;">
+            ✓ Create Products
+          </div>
+          <div style="padding: 8px; background-color: var(--gray-50); border-radius: 4px; font-size: 13px;">
+            ✓ Edit Products
+          </div>
+          <div style="padding: 8px; background-color: var(--gray-50); border-radius: 4px; font-size: 13px;">
+            ✓ Delete Products
+          </div>
+          <div style="padding: 8px; background-color: var(--gray-50); border-radius: 4px; font-size: 13px;">
+            ✓ View Products
+          </div>
+          <div style="padding: 8px; background-color: var(--gray-50); border-radius: 4px; font-size: 13px;">
+            ✓ Manage Channels
+          </div>
+          <div style="padding: 8px; background-color: var(--gray-50); border-radius: 4px; font-size: 13px;">
+            ✓ Manage Outlets
+          </div>
+          <div style="padding: 8px; background-color: var(--gray-50); border-radius: 4px; font-size: 13px;">
+            ✓ Approve Transactions
+          </div>
+          <div style="padding: 8px; background-color: var(--gray-50); border-radius: 4px; font-size: 13px;">
+            ✓ Manage Stock
+          </div>
+          <div style="padding: 8px; background-color: var(--gray-50); border-radius: 4px; font-size: 13px;">
+            ✓ View Sales Reports
+          </div>
+          <div style="padding: 8px; background-color: var(--gray-50); border-radius: 4px; font-size: 13px;">
+            ✓ Export Reports
+          </div>
+          <div style="padding: 8px; background-color: var(--gray-50); border-radius: 4px; font-size: 13px;">
+            ✓ Create Users
+          </div>
+          <div style="padding: 8px; background-color: var(--gray-50); border-radius: 4px; font-size: 13px;">
+            ✓ Manage Roles
+          </div>
+          <div style="padding: 8px; background-color: var(--gray-50); border-radius: 4px; font-size: 13px; color: var(--gray-500);">
+            ... and 36 more
+          </div>
+        </div>
+        
+        <!-- Assigned Users -->
+        <div style="font-weight: 600; margin-top: 24px; margin-bottom: 16px; color: var(--gray-900);">
+          Assigned Users (5)
+        </div>
+        
+        <table style="font-size: 13px;">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Area</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Admin National</td>
+              <td>admin@taraswin.com</td>
+              <td>All Areas</td>
+            </tr>
+            <tr>
+              <td>John Doe</td>
+              <td>john@taraswin.com</td>
+              <td>All Areas</td>
+            </tr>
+            <tr>
+              <td>Jane Smith</td>
+              <td>jane@taraswin.com</td>
+              <td>All Areas</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="document.getElementById('modalViewRole').classList.remove('modal-visible')">Close</button>
+        <button class="btn btn-primary" onclick="document.getElementById('modalViewRole').classList.remove('modal-visible'); document.getElementById('modalEditRole').classList.add('modal-visible')">Edit Role</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal: Edit Role -->
+  <div id="modalEditRole" class="modal-overlay modal-hidden" onclick="if(event.target === this) this.classList.remove('modal-visible')">
+    <div class="modal" style="max-width: 700px;">
+      <div class="modal-header">
+        <h2 class="modal-title">Edit Role: National Manager</h2>
+      </div>
+      <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+        <div style="background-color: var(--gray-50); padding: 16px; border-radius: 6px; margin-bottom: 24px;">
+          <div class="form-group">
+            <label class="form-label">Role Name *</label>
+            <input type="text" class="form-control" value="National Manager">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" rows="2">National level management</textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Scope *</label>
+            <div style="display: flex; gap: 16px;">
+              <label class="form-checkbox">
+                <input type="radio" name="scope_edit" value="national" checked>
+                <span>National (available in all areas)</span>
+              </label>
+              <label class="form-checkbox">
+                <input type="radio" name="scope_edit" value="area">
+                <span>Area-specific</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <div style="font-weight: 600; margin-bottom: 16px; color: var(--gray-900); font-size: 16px;">
+          Permissions (32 selected)
+        </div>
+        
+        <div style="font-size: 13px; color: var(--gray-600); margin-bottom: 16px;">
+          (Same permission checkboxes as in Add Role modal...)
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" style="margin-right: auto;">Delete Role</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('modalEditRole').classList.remove('modal-visible')">Cancel</button>
+        <button class="btn btn-primary">Update Role</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

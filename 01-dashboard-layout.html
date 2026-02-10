@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Layout - National/Regional Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Page-specific styles */
+    .layout-demo {
+      padding: 40px;
+      text-align: center;
+      color: var(--gray-500);
+    }
+    
+    .layout-demo-box {
+      background-color: var(--gray-100);
+      border: 2px dashed var(--gray-300);
+      border-radius: 8px;
+      padding: 40px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          📊 Taraswin Sales
+        </div>
+        <div style="font-size: 12px; color: var(--gray-400); margin-top: 4px;">
+          National Dashboard
+        </div>
+      </div>
+      
+      <nav class="sidebar-menu">
+        <!-- Dashboard Section -->
+        <div class="menu-section">
+          <a href="02-dashboard-home.html" class="menu-item active">
+            <span class="menu-icon">🏠</span>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        
+        <!-- Master Data Section -->
+        <div class="menu-section">
+          <div class="menu-section-title">Master Data</div>
+          <a href="03-channel-management.html" class="menu-item">
+            <span class="menu-icon">📋</span>
+            <span>Channels</span>
+          </a>
+          <a href="04-product-management.html" class="menu-item">
+            <span class="menu-icon">📦</span>
+            <span>Products</span>
+          </a>
+          <a href="05-roles-permissions.html" class="menu-item">
+            <span class="menu-icon">🔐</span>
+            <span>Roles & Permissions</span>
+          </a>
+          <a href="06-area-regional.html" class="menu-item">
+            <span class="menu-icon">🌍</span>
+            <span>Areas & Regions</span>
+          </a>
+        </div>
+        
+        <!-- Reports Section -->
+        <div class="menu-section">
+          <div class="menu-section-title">Reports</div>
+          <a href="07-reports.html" class="menu-item">
+            <span class="menu-icon">📊</span>
+            <span>Sales Reports</span>
+          </a>
+          <a href="07-reports.html#products" class="menu-item">
+            <span class="menu-icon">📈</span>
+            <span>Product Reports</span>
+          </a>
+          <a href="07-reports.html#outlets" class="menu-item">
+            <span class="menu-icon">🏪</span>
+            <span>Outlet Reports</span>
+          </a>
+          <a href="07-reports.html#employees" class="menu-item">
+            <span class="menu-icon">👥</span>
+            <span>Employee Reports</span>
+          </a>
+        </div>
+        
+        <!-- Settings Section -->
+        <div class="menu-section">
+          <div class="menu-section-title">Settings</div>
+          <a href="#" class="menu-item">
+            <span class="menu-icon">⚙️</span>
+            <span>System Settings</span>
+          </a>
+          <a href="#" class="menu-item">
+            <span class="menu-icon">👤</span>
+            <span>User Profile</span>
+          </a>
+        </div>
+      </nav>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Navigation -->
+      <nav class="top-nav">
+        <div class="breadcrumb">
+          <a href="02-dashboard-home.html" class="breadcrumb-item">Dashboard</a>
+          <span class="breadcrumb-separator">/</span>
+          <span class="breadcrumb-item">Home</span>
+        </div>
+        
+        <div class="top-nav-actions">
+          <!-- Notification -->
+          <div class="notification-icon">
+            <span>🔔</span>
+            <span class="notification-badge"></span>
+          </div>
+          
+          <!-- User Profile -->
+          <div class="user-profile">
+            <div class="user-avatar">AN</div>
+            <div>
+              <div style="font-size: 14px; font-weight: 500;">Admin National</div>
+              <div style="font-size: 12px; color: var(--gray-500);">National Level</div>
+            </div>
+            <span style="color: var(--gray-400);">▼</span>
+          </div>
+        </div>
+      </nav>
+      
+      <!-- Content Area -->
+      <div class="content-area">
+        <div class="layout-demo">
+          <h1 style="color: var(--gray-700); margin-bottom: 16px;">Dashboard Layout Structure</h1>
+          <p style="margin-bottom: 32px;">This is the base layout for all dashboard pages</p>
+          
+          <div class="layout-demo-box">
+            <h2 style="color: var(--gray-700); margin-bottom: 8px;">Content Area</h2>
+            <p>All page content will be rendered in this area</p>
+            <p style="margin-top: 16px; font-size: 13px;">
+              This layout includes:
+            </p>
+            <ul style="list-style: none; margin-top: 12px; line-height: 2;">
+              <li>✅ Fixed sidebar with navigation menu</li>
+              <li>✅ Sticky top navigation bar</li>
+              <li>✅ Breadcrumb navigation</li>
+              <li>✅ User profile and notifications</li>
+              <li>✅ Responsive layout structure</li>
+            </ul>
+          </div>
+          
+          <div style="margin-top: 32px;">
+            <h3 style="color: var(--gray-700); margin-bottom: 16px;">Navigation Quick Links</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; text-align: left;">
+              <a href="02-dashboard-home.html" class="card" style="text-decoration: none; color: inherit;">
+                <div style="font-weight: 600; margin-bottom: 4px;">🏠 Dashboard Home</div>
+                <div style="font-size: 13px; color: var(--gray-600);">Overview with KPIs and charts</div>
+              </a>
+              
+              <a href="03-channel-management.html" class="card" style="text-decoration: none; color: inherit;">
+                <div style="font-weight: 600; margin-bottom: 4px;">📋 Channel Management</div>
+                <div style="font-size: 13px; color: var(--gray-600);">3-level channel hierarchy</div>
+              </a>
+              
+              <a href="04-product-management.html" class="card" style="text-decoration: none; color: inherit;">
+                <div style="font-weight: 600; margin-bottom: 4px;">📦 Product Management</div>
+                <div style="font-size: 13px; color: var(--gray-600);">Products with area assignments</div>
+              </a>
+              
+              <a href="05-roles-permissions.html" class="card" style="text-decoration: none; color: inherit;">
+                <div style="font-weight: 600; margin-bottom: 4px;">🔐 Roles & Permissions</div>
+                <div style="font-size: 13px; color: var(--gray-600);">National and area-specific roles</div>
+              </a>
+              
+              <a href="06-area-regional.html" class="card" style="text-decoration: none; color: inherit;">
+                <div style="font-weight: 600; margin-bottom: 4px;">🌍 Area & Regional</div>
+                <div style="font-size: 13px; color: var(--gray-600);">Manage areas and regions</div>
+              </a>
+              
+              <a href="07-reports.html" class="card" style="text-decoration: none; color: inherit;">
+                <div style="font-weight: 600; margin-bottom: 4px;">📊 Reports Dashboard</div>
+                <div style="font-size: 13px; color: var(--gray-600);">National/regional reports</div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

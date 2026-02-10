@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Management - National/Regional Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .modal-visible {
+      display: flex !important;
+    }
+    
+    .modal-hidden {
+      display: none;
+    }
+    
+    .area-checkbox-list {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid var(--gray-200);
+      border-radius: 6px;
+      padding: 8px;
+    }
+    
+    .area-checkbox-item {
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+    }
+    
+    .area-checkbox-item:hover {
+      background-color: var(--gray-50);
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          📊 Taraswin Sales
+        </div>
+        <div style="font-size: 12px; color: var(--gray-400); margin-top: 4px;">
+          National Dashboard
+        </div>
+      </div>
+      
+      <nav class="sidebar-menu">
+        <div class="menu-section">
+          <a href="02-dashboard-home.html" class="menu-item">
+            <span class="menu-icon">🏠</span>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        
+        <div class="menu-section">
+          <div class="menu-section-title">Master Data</div>
+          <a href="03-channel-management.html" class="menu-item">
+            <span class="menu-icon">📋</span>
+            <span>Channels</span>
+          </a>
+          <a href="04-product-management.html" class="menu-item active">
+            <span class="menu-icon">📦</span>
+            <span>Products</span>
+          </a>
+          <a href="05-roles-permissions.html" class="menu-item">
+            <span class="menu-icon">🔐</span>
+            <span>Roles & Permissions</span>
+          </a>
+          <a href="06-area-regional.html" class="menu-item">
+            <span class="menu-icon">🌍</span>
+            <span>Areas & Regions</span>
+          </a>
+        </div>
+        
+        <div class="menu-section">
+          <div class="menu-section-title">Reports</div>
+          <a href="07-reports.html" class="menu-item">
+            <span class="menu-icon">📊</span>
+            <span>Sales Reports</span>
+          </a>
+        </div>
+      </nav>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Navigation -->
+      <nav class="top-nav">
+        <div class="breadcrumb">
+          <a href="02-dashboard-home.html" class="breadcrumb-item">Dashboard</a>
+          <span class="breadcrumb-separator">/</span>
+          <a href="#" class="breadcrumb-item">Master Data</a>
+          <span class="breadcrumb-separator">/</span>
+          <span class="breadcrumb-item">Products</span>
+        </div>
+        
+        <div class="top-nav-actions">
+          <div class="notification-icon">
+            <span>🔔</span>
+          </div>
+          
+          <div class="user-profile">
+            <div class="user-avatar">AN</div>
+            <div>
+              <div style="font-size: 14px; font-weight: 500;">Admin National</div>
+              <div style="font-size: 12px; color: var(--gray-500);">National Level</div>
+            </div>
+            <span style="color: var(--gray-400);">▼</span>
+          </div>
+        </div>
+      </nav>
+      
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Product Management</h1>
+            <p class="page-subtitle">Manage products and assign them to specific areas with custom configurations</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-secondary">
+              <span>📤</span> Export
+            </button>
+            <button class="btn btn-secondary">
+              <span>📥</span> Bulk Import
+            </button>
+            <button class="btn btn-primary" onclick="document.getElementById('modalAddProduct').classList.add('modal-visible')">
+              <span>+</span> Add Product
+            </button>
+          </div>
+        </div>
+        
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <input type="text" class="search-input" placeholder="Search by product name, code, or SKU...">
+          <select class="form-select" style="width: 180px;">
+            <option>All Categories</option>
+            <option>Kretek</option>
+            <option>Full Flavor</option>
+            <option>Mild/Filter</option>
+            <option>Flavored</option>
+          </select>
+          <select class="form-select" style="width: 150px;">
+            <option>All Status</option>
+            <option>Active</option>
+            <option>Inactive</option>
+          </select>
+          <button class="btn btn-secondary">
+            <span>🔍</span> Search
+          </button>
+        </div>
+        
+        <!-- Products Table -->
+        <div class="card">
+          <div class="card-body" style="padding: 0;">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 80px;">Image</th>
+                  <th>Product Code</th>
+                  <th>Product Name</th>
+                  <th>Category</th>
+                  <th>Base Price</th>
+                  <th>Active Areas</th>
+                  <th>Status</th>
+                  <th style="width: 200px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div style="width: 50px; height: 50px; background-color: var(--gray-200); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                      🚬
+                    </div>
+                  </td>
+                  <td><span style="font-family: monospace; font-weight: 500;">CIG-001</span></td>
+                  <td><span style="font-weight: 500;">Dua Legenda</span></td>
+                  <td>Kretek</td>
+                  <td><span style="font-weight: 500;">Rp 25,000</span></td>
+                  <td>
+                    <span class="badge badge-primary">24 Areas</span>
+                  </td>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="btn btn-sm btn-secondary">View</button>
+                      <button class="btn btn-sm btn-secondary">Edit</button>
+                      <button class="btn btn-sm btn-primary" onclick="document.getElementById('modalAreaAssignment').classList.add('modal-visible')">Assign</button>
+                    </div>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <div style="width: 50px; height: 50px; background-color: var(--gray-200); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                      🚬
+                    </div>
+                  </td>
+                  <td><span style="font-family: monospace; font-weight: 500;">CIG-002</span></td>
+                  <td><span style="font-weight: 500;">Rexo Inter</span></td>
+                  <td>Full Flavor</td>
+                  <td><span style="font-weight: 500;">Rp 22,000</span></td>
+                  <td>
+                    <span class="badge badge-primary">24 Areas</span>
+                  </td>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="btn btn-sm btn-secondary">View</button>
+                      <button class="btn btn-sm btn-secondary">Edit</button>
+                      <button class="btn btn-sm btn-primary">Assign</button>
+                    </div>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <div style="width: 50px; height: 50px; background-color: var(--gray-200); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                      🚬
+                    </div>
+                  </td>
+                  <td><span style="font-family: monospace; font-weight: 500;">CIG-003</span></td>
+                  <td><span style="font-weight: 500;">Rexo Crush Mango</span></td>
+                  <td>Flavored</td>
+                  <td><span style="font-weight: 500;">Rp 23,500</span></td>
+                  <td>
+                    <span class="badge badge-primary">18 Areas</span>
+                  </td>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="btn btn-sm btn-secondary">View</button>
+                      <button class="btn btn-sm btn-secondary">Edit</button>
+                      <button class="btn btn-sm btn-primary">Assign</button>
+                    </div>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <div style="width: 50px; height: 50px; background-color: var(--gray-200); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                      🚬
+                    </div>
+                  </td>
+                  <td><span style="font-family: monospace; font-weight: 500;">CIG-004</span></td>
+                  <td><span style="font-weight: 500;">Sky Blue</span></td>
+                  <td>Mild/Filter</td>
+                  <td><span style="font-weight: 500;">Rp 26,000</span></td>
+                  <td>
+                    <span class="badge badge-primary">24 Areas</span>
+                  </td>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="btn btn-sm btn-secondary">View</button>
+                      <button class="btn btn-sm btn-secondary">Edit</button>
+                      <button class="btn btn-sm btn-primary">Assign</button>
+                    </div>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <div style="width: 50px; height: 50px; background-color: var(--gray-200); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                      🚬
+                    </div>
+                  </td>
+                  <td><span style="font-family: monospace; font-weight: 500;">CIG-005</span></td>
+                  <td><span style="font-weight: 500;">Sky Red</span></td>
+                  <td>Full Flavor</td>
+                  <td><span style="font-weight: 500;">Rp 26,000</span></td>
+                  <td>
+                    <span class="badge badge-primary">24 Areas</span>
+                  </td>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="btn btn-sm btn-secondary">View</button>
+                      <button class="btn btn-sm btn-secondary">Edit</button>
+                      <button class="btn btn-sm btn-primary">Assign</button>
+                    </div>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <div style="width: 50px; height: 50px; background-color: var(--gray-200); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                      🚬
+                    </div>
+                  </td>
+                  <td><span style="font-family: monospace; font-weight: 500;">CIG-006</span></td>
+                  <td><span style="font-weight: 500;">Sky Click</span></td>
+                  <td>Mild/Filter</td>
+                  <td><span style="font-weight: 500;">Rp 27,000</span></td>
+                  <td>
+                    <span class="badge badge-primary">20 Areas</span>
+                  </td>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="btn btn-sm btn-secondary">View</button>
+                      <button class="btn btn-sm btn-secondary">Edit</button>
+                      <button class="btn btn-sm btn-primary">Assign</button>
+                    </div>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <div style="width: 50px; height: 50px; background-color: var(--gray-200); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                      🚬
+                    </div>
+                  </td>
+                  <td><span style="font-family: monospace; font-weight: 500;">CIG-007</span></td>
+                  <td><span style="font-weight: 500;">Davas</span></td>
+                  <td>Full Flavor</td>
+                  <td><span style="font-weight: 500;">Rp 18,000</span></td>
+                  <td>
+                    <span class="badge badge-primary">16 Areas</span>
+                  </td>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="btn btn-sm btn-secondary">View</button>
+                      <button class="btn btn-sm btn-secondary">Edit</button>
+                      <button class="btn btn-sm btn-primary">Assign</button>
+                    </div>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <div style="width: 50px; height: 50px; background-color: var(--gray-200); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                      🚬
+                    </div>
+                  </td>
+                  <td><span style="font-family: monospace; font-weight: 500;">CIG-008</span></td>
+                  <td><span style="font-weight: 500;">Bara Gold</span></td>
+                  <td>Kretek</td>
+                  <td><span style="font-weight: 500;">Rp 21,000</span></td>
+                  <td>
+                    <span class="badge badge-warning">12 Areas</span>
+                  </td>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="btn btn-sm btn-secondary">View</button>
+                      <button class="btn btn-sm btn-secondary">Edit</button>
+                      <button class="btn btn-sm btn-primary">Assign</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <!-- Pagination -->
+            <div class="pagination">
+              <div class="pagination-info">
+                Showing 1 to 8 of 1,256 products
+              </div>
+              <div class="pagination-controls">
+                <button class="btn btn-sm btn-secondary" disabled>Previous</button>
+                <button class="btn btn-sm btn-secondary">1</button>
+                <button class="btn btn-sm btn-secondary">2</button>
+                <button class="btn btn-sm btn-secondary">3</button>
+                <button class="btn btn-sm btn-secondary">...</button>
+                <button class="btn btn-sm btn-secondary">158</button>
+                <button class="btn btn-sm btn-secondary">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Modal: Add Product -->
+  <div id="modalAddProduct" class="modal-overlay modal-hidden" onclick="if(event.target === this) this.classList.remove('modal-visible')">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Add New Product</h2>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Product Code *</label>
+          <input type="text" class="form-control" placeholder="PRD-XXX">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Product Name *</label>
+          <input type="text" class="form-control" placeholder="Enter product name">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">SKU</label>
+          <input type="text" class="form-control" placeholder="Stock Keeping Unit">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Category *</label>
+          <select class="form-select">
+            <option>Select Category</option>
+            <option>Kretek</option>
+            <option>Full Flavor</option>
+            <option>Mild/Filter</option>
+            <option>Flavored</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Base Price (National) *</label>
+          <input type="number" class="form-control" placeholder="0">
+          <div style="font-size: 12px; color: var(--gray-500); margin-top: 4px;">
+            This is the base price. Areas can override with their own pricing.
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Product Image</label>
+          <input type="file" class="form-control" accept="image/*">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-control" rows="3" placeholder="Product description..."></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Status *</label>
+          <select class="form-select">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="document.getElementById('modalAddProduct').classList.remove('modal-visible')">Cancel</button>
+        <button class="btn btn-primary">Save Product</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal: Area Assignment -->
+  <div id="modalAreaAssignment" class="modal-overlay modal-hidden" onclick="if(event.target === this) this.classList.remove('modal-visible')">
+    <div class="modal" style="max-width: 900px;">
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title">Assign Product to Areas</h2>
+          <div style="font-size: 13px; color: var(--gray-600); margin-top: 4px;">
+            <strong>Dua Legenda</strong> (CIG-001) - Kretek
+          </div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <!-- Area Selection -->
+        <div class="form-group">
+          <label class="form-label">Select Areas</label>
+          <div class="area-checkbox-list">
+            <div class="area-checkbox-item">
+              <input type="checkbox" checked>
+              <div style="flex: 1;">
+                <div style="font-weight: 500;">Jakarta Selatan</div>
+                <div style="font-size: 12px; color: var(--gray-500);">Regional: Jabodetabek</div>
+              </div>
+              <span class="badge badge-success">Active</span>
+            </div>
+            
+            <div class="area-checkbox-item">
+              <input type="checkbox" checked>
+              <div style="flex: 1;">
+                <div style="font-weight: 500;">Jakarta Barat</div>
+                <div style="font-size: 12px; color: var(--gray-500);">Regional: Jabodetabek</div>
+              </div>
+              <span class="badge badge-success">Active</span>
+            </div>
+            
+            <div class="area-checkbox-item">
+              <input type="checkbox" checked>
+              <div style="flex: 1;">
+                <div style="font-weight: 500;">Bandung</div>
+                <div style="font-size: 12px; color: var(--gray-500);">Regional: Jawa Barat</div>
+              </div>
+              <span class="badge badge-success">Active</span>
+            </div>
+            
+            <div class="area-checkbox-item">
+              <input type="checkbox">
+              <div style="flex: 1;">
+                <div style="font-weight: 500;">Surabaya</div>
+                <div style="font-size: 12px; color: var(--gray-500);">Regional: Jawa Timur</div>
+              </div>
+              <span class="badge badge-warning">Inactive</span>
+            </div>
+            
+            <div class="area-checkbox-item">
+              <input type="checkbox">
+              <div style="flex: 1;">
+                <div style="font-weight: 500;">Semarang</div>
+                <div style="font-size: 12px; color: var(--gray-500);">Regional: Jawa Tengah</div>
+              </div>
+              <span class="badge badge-warning">Inactive</span>
+            </div>
+            
+            <div class="area-checkbox-item">
+              <input type="checkbox" checked>
+              <div style="flex: 1;">
+                <div style="font-weight: 500;">Medan</div>
+                <div style="font-size: 12px; color: var(--gray-500);">Regional: Sumatera Utara</div>
+              </div>
+              <span class="badge badge-success">Active</span>
+            </div>
+          </div>
+        </div>
+        
+        <div style="border-top: 1px solid var(--gray-200); margin: 24px -20px; padding-top: 24px; padding-left: 20px; padding-right: 20px;">
+          <div style="font-weight: 600; margin-bottom: 16px; color: var(--gray-900);">
+            Area-Specific Settings
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Configure for Area</label>
+            <select class="form-select">
+              <option>Select Area to Configure</option>
+              <option selected>Jakarta Selatan</option>
+              <option>Jakarta Barat</option>
+              <option>Bandung</option>
+              <option>Medan</option>
+            </select>
+          </div>
+          
+          <div style="background-color: var(--gray-50); padding: 16px; border-radius: 6px; margin-bottom: 16px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Area Price</label>
+                <input type="number" class="form-control" value="27500" placeholder="Leave empty to use base price">
+                <div style="font-size: 12px; color: var(--gray-600); margin-top: 4px;">
+                  Base price: Rp 25,000
+                </div>
+              </div>
+              
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Initial Stock</label>
+                <input type="number" class="form-control" value="1000" placeholder="0">
+              </div>
+            </div>
+            
+            <div class="form-group" style="margin-top: 16px; margin-bottom: 0;">
+              <label class="form-label">Special Settings / Notes</label>
+              <textarea class="form-control" rows="2" placeholder="Any special configuration for this area...">Higher excise tax in Jakarta area - adjusted pricing accordingly</textarea>
+            </div>
+            
+            <div class="form-group" style="margin-top: 16px; margin-bottom: 0;">
+              <label class="form-label">Status in This Area</label>
+              <div style="display: flex; gap: 16px;">
+                <label class="form-checkbox">
+                  <input type="radio" name="area_status" checked>
+                  <span>Active</span>
+                </label>
+                <label class="form-checkbox">
+                  <input type="radio" name="area_status">
+                  <span>Inactive</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <div style="font-size: 13px; color: var(--gray-600); background-color: #DBEAFE; padding: 12px; border-radius: 6px;">
+            ℹ️ Each area can have different pricing, stock levels, and settings. Configure each area individually or apply the same settings to all selected areas.
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="document.getElementById('modalAreaAssignment').classList.remove('modal-visible')">Cancel</button>
+        <button class="btn btn-secondary">Apply to All Selected</button>
+        <button class="btn btn-primary">Save Assignment</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Home - National/Regional Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          📊 Taraswin Sales
+        </div>
+        <div style="font-size: 12px; color: var(--gray-400); margin-top: 4px;">
+          National Dashboard
+        </div>
+      </div>
+      
+      <nav class="sidebar-menu">
+        <div class="menu-section">
+          <a href="02-dashboard-home.html" class="menu-item active">
+            <span class="menu-icon">🏠</span>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        
+        <div class="menu-section">
+          <div class="menu-section-title">Master Data</div>
+          <a href="03-channel-management.html" class="menu-item">
+            <span class="menu-icon">📋</span>
+            <span>Channels</span>
+          </a>
+          <a href="04-product-management.html" class="menu-item">
+            <span class="menu-icon">📦</span>
+            <span>Products</span>
+          </a>
+          <a href="05-roles-permissions.html" class="menu-item">
+            <span class="menu-icon">🔐</span>
+            <span>Roles & Permissions</span>
+          </a>
+          <a href="06-area-regional.html" class="menu-item">
+            <span class="menu-icon">🌍</span>
+            <span>Areas & Regions</span>
+          </a>
+        </div>
+        
+        <div class="menu-section">
+          <div class="menu-section-title">Reports</div>
+          <a href="07-reports.html" class="menu-item">
+            <span class="menu-icon">📊</span>
+            <span>Sales Reports</span>
+          </a>
+          <a href="07-reports.html#products" class="menu-item">
+            <span class="menu-icon">📈</span>
+            <span>Product Reports</span>
+          </a>
+          <a href="07-reports.html#outlets" class="menu-item">
+            <span class="menu-icon">🏪</span>
+            <span>Outlet Reports</span>
+          </a>
+          <a href="07-reports.html#employees" class="menu-item">
+            <span class="menu-icon">👥</span>
+            <span>Employee Reports</span>
+          </a>
+        </div>
+      </nav>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Navigation -->
+      <nav class="top-nav">
+        <div class="breadcrumb">
+          <a href="02-dashboard-home.html" class="breadcrumb-item">Dashboard</a>
+        </div>
+        
+        <div class="top-nav-actions">
+          <div class="notification-icon">
+            <span>🔔</span>
+            <span class="notification-badge"></span>
+          </div>
+          
+          <div class="user-profile">
+            <div class="user-avatar">AN</div>
+            <div>
+              <div style="font-size: 14px; font-weight: 500;">Admin National</div>
+              <div style="font-size: 12px; color: var(--gray-500);">National Level</div>
+            </div>
+            <span style="color: var(--gray-400);">▼</span>
+          </div>
+        </div>
+      </nav>
+      
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Welcome Header -->
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Dashboard Overview</h1>
+            <p class="page-subtitle">Welcome back! Here's your national performance summary</p>
+          </div>
+          <div class="page-actions">
+            <select class="form-select" style="width: auto;">
+              <option>Last 7 Days</option>
+              <option>Last 30 Days</option>
+              <option>Last 3 Months</option>
+              <option>Last 12 Months</option>
+              <option>Custom Range</option>
+            </select>
+            <button class="btn btn-primary">
+              <span>📥</span> Export Report
+            </button>
+          </div>
+        </div>
+        
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Total Areas</div>
+            <div class="kpi-value">24</div>
+            <div class="kpi-change positive">
+              <span>↑</span> 2 new this month
+            </div>
+          </div>
+          
+          <div class="kpi-card">
+            <div class="kpi-label">Total Outlets</div>
+            <div class="kpi-value">3,847</div>
+            <div class="kpi-change positive">
+              <span>↑</span> 12.5% vs last month
+            </div>
+          </div>
+          
+          <div class="kpi-card">
+            <div class="kpi-label">Active Products</div>
+            <div class="kpi-value">1,256</div>
+            <div class="kpi-change">
+              <span>→</span> No change
+            </div>
+          </div>
+          
+          <div class="kpi-card">
+            <div class="kpi-label">Active Users</div>
+            <div class="kpi-value">892</div>
+            <div class="kpi-change positive">
+              <span>↑</span> 8.3% active
+            </div>
+          </div>
+        </div>
+        
+        <!-- Charts Row 1 -->
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 24px;">
+          <!-- Sales Trend Chart -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Sales Trend</div>
+            </div>
+            <div class="card-body">
+              <div class="chart-placeholder" style="height: 300px;">
+                📈 Line/Bar Chart<br>
+                <span style="font-size: 12px;">Sales over time (Last 30 days)</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Product Category Distribution -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Product Categories</div>
+            </div>
+            <div class="card-body">
+              <div class="chart-placeholder" style="height: 300px;">
+                🥧 Pie Chart<br>
+                <span style="font-size: 12px;">Distribution by category</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Charts Row 2 -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;">
+          <!-- Top Performing Areas -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Top Performing Areas</div>
+            </div>
+            <div class="card-body">
+              <div class="chart-placeholder" style="height: 250px;">
+                📊 Horizontal Bar Chart<br>
+                <span style="font-size: 12px;">Sales by area (Top 10)</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Sales by Channel -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Sales by Channel</div>
+            </div>
+            <div class="card-body">
+              <div class="chart-placeholder" style="height: 250px;">
+                📊 Column Chart<br>
+                <span style="font-size: 12px;">Modern vs Traditional channels</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Recent Activities & Quick Actions -->
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+          <!-- Recent Activities -->
+          <div class="card">
+            <div class="card-header">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="card-title">Recent Activities</div>
+                <a href="#" style="font-size: 13px; color: var(--primary-color); text-decoration: none;">View All</a>
+              </div>
+            </div>
+            <div class="card-body">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Activity</th>
+                    <th>User</th>
+                    <th>Area</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>10 mins ago</td>
+                    <td>New outlet added</td>
+                    <td>John Doe</td>
+                    <td>Jakarta Selatan</td>
+                    <td><span class="badge badge-success">Completed</span></td>
+                  </tr>
+                  <tr>
+                    <td>25 mins ago</td>
+                    <td>Product price updated</td>
+                    <td>Admin National</td>
+                    <td>All Areas</td>
+                    <td><span class="badge badge-success">Completed</span></td>
+                  </tr>
+                  <tr>
+                    <td>1 hour ago</td>
+                    <td>New role created</td>
+                    <td>Admin National</td>
+                    <td>Bandung Area</td>
+                    <td><span class="badge badge-success">Completed</span></td>
+                  </tr>
+                  <tr>
+                    <td>2 hours ago</td>
+                    <td>Bulk product import</td>
+                    <td>Product Manager</td>
+                    <td>All Areas</td>
+                    <td><span class="badge badge-warning">Processing</span></td>
+                  </tr>
+                  <tr>
+                    <td>3 hours ago</td>
+                    <td>Channel structure updated</td>
+                    <td>Admin National</td>
+                    <td>All Areas</td>
+                    <td><span class="badge badge-success">Completed</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <!-- Quick Actions -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Quick Actions</div>
+            </div>
+            <div class="card-body">
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <a href="04-product-management.html" class="btn btn-primary" style="justify-content: center;">
+                  <span>📦</span> Add New Product
+                </a>
+                <a href="03-channel-management.html" class="btn btn-secondary" style="justify-content: center;">
+                  <span>📋</span> Manage Channels
+                </a>
+                <a href="06-area-regional.html" class="btn btn-secondary" style="justify-content: center;">
+                  <span>🌍</span> Add New Area
+                </a>
+                <a href="05-roles-permissions.html" class="btn btn-secondary" style="justify-content: center;">
+                  <span>🔐</span> Create Role
+                </a>
+                <a href="07-reports.html" class="btn btn-secondary" style="justify-content: center;">
+                  <span>📊</span> View Reports
+                </a>
+              </div>
+              
+              <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--gray-200);">
+                <div style="font-size: 13px; font-weight: 600; color: var(--gray-700); margin-bottom: 12px;">
+                  System Status
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--gray-600);">Database</span>
+                    <span class="badge badge-success">Healthy</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--gray-600);">API Status</span>
+                    <span class="badge badge-success">Online</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--gray-600);">Last Sync</span>
+                    <span style="color: var(--gray-700);">2 mins ago</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

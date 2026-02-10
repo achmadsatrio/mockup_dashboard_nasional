@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Channel Management - National/Regional Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .tree-level-1 { padding-left: 0; }
+    .tree-level-2 { padding-left: 32px; }
+    .tree-level-3 { padding-left: 64px; }
+    
+    .tree-row {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--gray-200);
+      transition: background-color 0.2s;
+    }
+    
+    .tree-row:hover {
+      background-color: var(--gray-50);
+    }
+    
+    .tree-toggle {
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin-right: 8px;
+    }
+    
+    .tree-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .tree-name {
+      font-weight: 500;
+      color: var(--gray-900);
+    }
+    
+    .tree-code {
+      font-size: 12px;
+      color: var(--gray-500);
+      font-family: monospace;
+    }
+    
+    .modal-visible {
+      display: flex !important;
+    }
+    
+    .modal-hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          📊 Taraswin Sales
+        </div>
+        <div style="font-size: 12px; color: var(--gray-400); margin-top: 4px;">
+          National Dashboard
+        </div>
+      </div>
+      
+      <nav class="sidebar-menu">
+        <div class="menu-section">
+          <a href="02-dashboard-home.html" class="menu-item">
+            <span class="menu-icon">🏠</span>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        
+        <div class="menu-section">
+          <div class="menu-section-title">Master Data</div>
+          <a href="03-channel-management.html" class="menu-item active">
+            <span class="menu-icon">📋</span>
+            <span>Channels</span>
+          </a>
+          <a href="04-product-management.html" class="menu-item">
+            <span class="menu-icon">📦</span>
+            <span>Products</span>
+          </a>
+          <a href="05-roles-permissions.html" class="menu-item">
+            <span class="menu-icon">🔐</span>
+            <span>Roles & Permissions</span>
+          </a>
+          <a href="06-area-regional.html" class="menu-item">
+            <span class="menu-icon">🌍</span>
+            <span>Areas & Regions</span>
+          </a>
+        </div>
+        
+        <div class="menu-section">
+          <div class="menu-section-title">Reports</div>
+          <a href="07-reports.html" class="menu-item">
+            <span class="menu-icon">📊</span>
+            <span>Sales Reports</span>
+          </a>
+        </div>
+      </nav>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Navigation -->
+      <nav class="top-nav">
+        <div class="breadcrumb">
+          <a href="02-dashboard-home.html" class="breadcrumb-item">Dashboard</a>
+          <span class="breadcrumb-separator">/</span>
+          <a href="03-channel-management.html" class="breadcrumb-item">Master Data</a>
+          <span class="breadcrumb-separator">/</span>
+          <span class="breadcrumb-item">Channels</span>
+        </div>
+        
+        <div class="top-nav-actions">
+          <div class="notification-icon">
+            <span>🔔</span>
+          </div>
+          
+          <div class="user-profile">
+            <div class="user-avatar">AN</div>
+            <div>
+              <div style="font-size: 14px; font-weight: 500;">Admin National</div>
+              <div style="font-size: 12px; color: var(--gray-500);">National Level</div>
+            </div>
+            <span style="color: var(--gray-400);">▼</span>
+          </div>
+        </div>
+      </nav>
+      
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Channel Management</h1>
+            <p class="page-subtitle">Manage 3-level channel hierarchy: Channel → Category → Classification</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-secondary" onclick="document.getElementById('modalClassificationSettings').classList.add('modal-visible')">
+              <span>⚙️</span> Classification Settings
+            </button>
+            <button class="btn btn-primary" onclick="document.getElementById('modalAddChannel').classList.add('modal-visible')">
+              <span>+</span> Add Channel
+            </button>
+          </div>
+        </div>
+        
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <input type="text" class="search-input" placeholder="Search channels, categories, or classifications...">
+          <select class="form-select" style="width: 200px;">
+            <option>All Status</option>
+            <option>Active</option>
+            <option>Inactive</option>
+          </select>
+          <button class="btn btn-secondary">
+            <span>🔍</span> Search
+          </button>
+        </div>
+        
+        <!-- Channel Tree -->
+        <div class="card">
+          <div class="card-body" style="padding: 0;">
+            <!-- Table Header -->
+            <div style="display: flex; padding: 12px 16px; background-color: var(--gray-50); border-bottom: 2px solid var(--gray-200); font-weight: 600; font-size: 12px; text-transform: uppercase; color: var(--gray-700);">
+              <div style="flex: 1;">Name</div>
+              <div style="width: 150px;">Type</div>
+              <div style="width: 120px;">Status</div>
+              <div style="width: 150px; text-align: right;">Actions</div>
+            </div>
+            
+            <!-- Level 1: Channel - Modern -->
+            <div class="tree-row tree-level-1">
+              <span class="tree-toggle">▼</span>
+              <div class="tree-content">
+                <span class="tree-name">Modern Channel</span>
+                <span class="tree-code">CH-MOD</span>
+              </div>
+              <div style="width: 150px;">
+                <span class="badge badge-primary">Channel</span>
+              </div>
+              <div style="width: 120px;">
+                <span class="badge badge-success">Active</span>
+              </div>
+              <div class="action-menu" style="width: 150px; justify-content: flex-end;">
+                <button class="btn btn-sm btn-secondary" onclick="document.getElementById('modalEditChannel').classList.add('modal-visible')">Edit</button>
+                <button class="btn btn-sm btn-secondary" onclick="document.getElementById('modalAddCategory').classList.add('modal-visible')">Add Category</button>
+              </div>
+            </div>
+            
+            <!-- Level 2: Outlet Category - Supermarket -->
+            <div class="tree-row tree-level-2">
+              <span class="tree-toggle">▼</span>
+              <div class="tree-content">
+                <span class="tree-name">Supermarket</span>
+                <span class="tree-code">CAT-SUPER</span>
+                <span style="font-size: 12px; color: var(--gray-500);">Large retail stores</span>
+              </div>
+              <div style="width: 150px;">
+                <span class="badge badge-primary">Category</span>
+              </div>
+              <div style="width: 120px;">
+                <span class="badge badge-success">Active</span>
+              </div>
+              <div class="action-menu" style="width: 150px; justify-content: flex-end;">
+                <button class="btn btn-sm btn-secondary">Edit</button>
+                <button class="btn btn-sm btn-danger">Delete</button>
+              </div>
+            </div>
+            
+            <!-- Level 3: Classifications under Supermarket -->
+            <div class="tree-row tree-level-3">
+              <span class="tree-toggle" style="visibility: hidden;"></span>
+              <div class="tree-content">
+                <span class="tree-name">Gold</span>
+                <span style="font-size: 12px; color: var(--gray-500);">&gt; Rp 50,000,000 avg/3mo</span>
+              </div>
+              <div style="width: 150px;">
+                <span class="badge badge-gold">Classification</span>
+              </div>
+              <div style="width: 120px;">
+                <span style="font-size: 12px; color: var(--gray-600);">Auto-assigned</span>
+              </div>
+              <div style="width: 150px;"></div>
+            </div>
+            
+            <div class="tree-row tree-level-3">
+              <span class="tree-toggle" style="visibility: hidden;"></span>
+              <div class="tree-content">
+                <span class="tree-name">Silver</span>
+                <span style="font-size: 12px; color: var(--gray-500);">Rp 20M - 50M avg/3mo</span>
+              </div>
+              <div style="width: 150px;">
+                <span class="badge badge-silver">Classification</span>
+              </div>
+              <div style="width: 120px;">
+                <span style="font-size: 12px; color: var(--gray-600);">Auto-assigned</span>
+              </div>
+              <div style="width: 150px;"></div>
+            </div>
+            
+            <div class="tree-row tree-level-3">
+              <span class="tree-toggle" style="visibility: hidden;"></span>
+              <div class="tree-content">
+                <span class="tree-name">Bronze</span>
+                <span style="font-size: 12px; color: var(--gray-500);">&lt; Rp 20,000,000 avg/3mo</span>
+              </div>
+              <div style="width: 150px;">
+                <span class="badge badge-bronze">Classification</span>
+              </div>
+              <div style="width: 120px;">
+                <span style="font-size: 12px; color: var(--gray-600);">Auto-assigned</span>
+              </div>
+              <div style="width: 150px;"></div>
+            </div>
+            
+            <!-- Level 2: Outlet Category - Minimarket -->
+            <div class="tree-row tree-level-2">
+              <span class="tree-toggle">▼</span>
+              <div class="tree-content">
+                <span class="tree-name">Minimarket</span>
+                <span class="tree-code">CAT-MINI</span>
+                <span style="font-size: 12px; color: var(--gray-500);">Small convenience stores</span>
+              </div>
+              <div style="width: 150px;">
+                <span class="badge badge-primary">Category</span>
+              </div>
+              <div style="width: 120px;">
+                <span class="badge badge-success">Active</span>
+              </div>
+              <div class="action-menu" style="width: 150px; justify-content: flex-end;">
+                <button class="btn btn-sm btn-secondary">Edit</button>
+                <button class="btn btn-sm btn-danger">Delete</button>
+              </div>
+            </div>
+            
+            <!-- Level 3: Classifications under Minimarket -->
+            <div class="tree-row tree-level-3">
+              <span class="tree-toggle" style="visibility: hidden;"></span>
+              <div class="tree-content">
+                <span class="tree-name">Gold</span>
+                <span style="font-size: 12px; color: var(--gray-500);">&gt; Rp 50,000,000 avg/3mo</span>
+              </div>
+              <div style="width: 150px;">
+                <span class="badge badge-gold">Classification</span>
+              </div>
+              <div style="width: 120px;">
+                <span style="font-size: 12px; color: var(--gray-600);">Auto-assigned</span>
+              </div>
+              <div style="width: 150px;"></div>
+            </div>
+            
+            <div class="tree-row tree-level-3">
+              <span class="tree-toggle" style="visibility: hidden;"></span>
+              <div class="tree-content">
+                <span class="tree-name">Silver</span>
+                <span style="font-size: 12px; color: var(--gray-500);">Rp 20M - 50M avg/3mo</span>
+              </div>
+              <div style="width: 150px;">
+                <span class="badge badge-silver">Classification</span>
+              </div>
+              <div style="width: 120px;">
+                <span style="font-size: 12px; color: var(--gray-600);">Auto-assigned</span>
+              </div>
+              <div style="width: 150px;"></div>
+            </div>
+            
+            <div class="tree-row tree-level-3">
+              <span class="tree-toggle" style="visibility: hidden;"></span>
+              <div class="tree-content">
+                <span class="tree-name">Bronze</span>
+                <span style="font-size: 12px; color: var(--gray-500);">&lt; Rp 20,000,000 avg/3mo</span>
+              </div>
+              <div style="width: 150px;">
+                <span class="badge badge-bronze">Classification</span>
+              </div>
+              <div style="width: 120px;">
+                <span style="font-size: 12px; color: var(--gray-600);">Auto-assigned</span>
+              </div>
+              <div style="width: 150px;"></div>
+            </div>
+            
+            <!-- Level 1: Channel - Traditional -->
+            <div class="tree-row tree-level-1">
+              <span class="tree-toggle">▼</span>
+              <div class="tree-content">
+                <span class="tree-name">Traditional Channel</span>
+                <span class="tree-code">CH-TRAD</span>
+              </div>
+              <div style="width: 150px;">
+                <span class="badge badge-primary">Channel</span>
+              </div>
+              <div style="width: 120px;">
+                <span class="badge badge-success">Active</span>
+              </div>
+              <div class="action-menu" style="width: 150px; justify-content: flex-end;">
+                <button class="btn btn-sm btn-secondary">Edit</button>
+                <button class="btn btn-sm btn-secondary">Add Category</button>
+              </div>
+            </div>
+            
+            <!-- Level 2: Outlet Category - Warung -->
+            <div class="tree-row tree-level-2">
+              <span class="tree-toggle">▼</span>
+              <div class="tree-content">
+                <span class="tree-name">Warung</span>
+                <span class="tree-code">CAT-WARUNG</span>
+                <span style="font-size: 12px; color: var(--gray-500);">Traditional small shops</span>
+              </div>
+              <div style="width: 150px;">
+                <span class="badge badge-primary">Category</span>
+              </div>
+              <div style="width: 120px;">
+                <span class="badge badge-success">Active</span>
+              </div>
+              <div class="action-menu" style="width: 150px; justify-content: flex-end;">
+                <button class="btn btn-sm btn-secondary">Edit</button>
+                <button class="btn btn-sm btn-danger">Delete</button>
+              </div>
+            </div>
+            
+            <!-- Level 3: Classifications under Warung -->
+            <div class="tree-row tree-level-3">
+              <span class="tree-toggle" style="visibility: hidden;"></span>
+              <div class="tree-content">
+                <span class="tree-name">Gold</span>
+                <span style="font-size: 12px; color: var(--gray-500);">&gt; Rp 50,000,000 avg/3mo</span>
+              </div>
+              <div style="width: 150px;">
+                <span class="badge badge-gold">Classification</span>
+              </div>
+              <div style="width: 120px;">
+                <span style="font-size: 12px; color: var(--gray-600);">Auto-assigned</span>
+              </div>
+              <div style="width: 150px;"></div>
+            </div>
+            
+            <div class="tree-row tree-level-3">
+              <span class="tree-toggle" style="visibility: hidden;"></span>
+              <div class="tree-content">
+                <span class="tree-name">Silver</span>
+                <span style="font-size: 12px; color: var(--gray-500);">Rp 20M - 50M avg/3mo</span>
+              </div>
+              <div style="width: 150px;">
+                <span class="badge badge-silver">Classification</span>
+              </div>
+              <div style="width: 120px;">
+                <span style="font-size: 12px; color: var(--gray-600);">Auto-assigned</span>
+              </div>
+              <div style="width: 150px;"></div>
+            </div>
+            
+            <div class="tree-row tree-level-3">
+              <span class="tree-toggle" style="visibility: hidden;"></span>
+              <div class="tree-content">
+                <span class="tree-name">Bronze</span>
+                <span style="font-size: 12px; color: var(--gray-500);">&lt; Rp 20,000,000 avg/3mo</span>
+              </div>
+              <div style="width: 150px;">
+                <span class="badge badge-bronze">Classification</span>
+              </div>
+              <div style="width: 120px;">
+                <span style="font-size: 12px; color: var(--gray-600);">Auto-assigned</span>
+              </div>
+              <div style="width: 150px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Modal: Add/Edit Channel (Level 1) -->
+  <div id="modalAddChannel" class="modal-overlay modal-hidden" onclick="if(event.target === this) this.classList.remove('modal-visible')">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Add New Channel</h2>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Channel Name *</label>
+          <input type="text" class="form-control" placeholder="e.g., Modern, Traditional">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Channel Code *</label>
+          <input type="text" class="form-control" placeholder="e.g., CH-MOD">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-control" rows="3" placeholder="Brief description of this channel..."></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Status *</label>
+          <select class="form-select">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="document.getElementById('modalAddChannel').classList.remove('modal-visible')">Cancel</button>
+        <button class="btn btn-primary">Save Channel</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal: Add/Edit Outlet Category (Level 2) -->
+  <div id="modalAddCategory" class="modal-overlay modal-hidden" onclick="if(event.target === this) this.classList.remove('modal-visible')">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Add Outlet Category</h2>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Parent Channel *</label>
+          <select class="form-select">
+            <option>Select Channel</option>
+            <option>Modern Channel</option>
+            <option>Traditional Channel</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Category Name *</label>
+          <input type="text" class="form-control" placeholder="e.g., Supermarket, Minimarket, Warung">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Category Code *</label>
+          <input type="text" class="form-control" placeholder="e.g., CAT-SUPER">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Market Type Description</label>
+          <textarea class="form-control" rows="3" placeholder="Describe the market type for this category..."></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Status *</label>
+          <select class="form-select">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="document.getElementById('modalAddCategory').classList.remove('modal-visible')">Cancel</button>
+        <button class="btn btn-primary">Save Category</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal: Classification Settings (Level 3) -->
+  <div id="modalClassificationSettings" class="modal-overlay modal-hidden" onclick="if(event.target === this) this.classList.remove('modal-visible')">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Classification Settings</h2>
+      </div>
+      <div class="modal-body">
+        <div style="background-color: var(--gray-50); padding: 16px; border-radius: 6px; margin-bottom: 24px;">
+          <div style="font-size: 13px; color: var(--gray-700); margin-bottom: 8px;">
+            ℹ️ <strong>Auto-Classification Rules</strong>
+          </div>
+          <div style="font-size: 13px; color: var(--gray-600);">
+            Outlets are automatically classified based on average transaction value over the last 3 months since last visit. 
+            Classification can be manually overridden per outlet.
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Gold Threshold (minimum) *</label>
+          <input type="number" class="form-control" value="50000000" placeholder="50000000">
+          <div style="font-size: 12px; color: var(--gray-500); margin-top: 4px;">
+            Outlets with average ≥ this amount will be classified as Gold
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Silver Threshold (minimum) *</label>
+          <input type="number" class="form-control" value="20000000" placeholder="20000000">
+          <div style="font-size: 12px; color: var(--gray-500); margin-top: 4px;">
+            Outlets with average between Silver and Gold thresholds will be classified as Silver
+          </div>
+        </div>
+        
+        <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--gray-200);">
+          <label class="form-label">Classification Display Colors</label>
+          
+          <div class="form-group">
+            <label class="form-label">Gold Color</label>
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <input type="color" value="#FFD700" style="width: 60px; height: 36px;">
+              <input type="text" class="form-control" value="#FFD700" style="flex: 1;">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Silver Color</label>
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <input type="color" value="#C0C0C0" style="width: 60px; height: 36px;">
+              <input type="text" class="form-control" value="#C0C0C0" style="flex: 1;">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Bronze Color</label>
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <input type="color" value="#CD7F32" style="width: 60px; height: 36px;">
+              <input type="text" class="form-control" value="#CD7F32" style="flex: 1;">
+            </div>
+          </div>
+        </div>
+        
+        <div style="background-color: var(--warning-color); background-color: #FEF3C7; padding: 12px; border-radius: 6px; margin-top: 16px;">
+          <div style="font-size: 13px; color: #78350F;">
+            ⚠️ Changing these settings will trigger re-calculation for all outlets. This may take a few minutes.
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="document.getElementById('modalClassificationSettings').classList.remove('modal-visible')">Cancel</button>
+        <button class="btn btn-primary">Save Settings & Recalculate</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal: Edit Channel -->
+  <div id="modalEditChannel" class="modal-overlay modal-hidden" onclick="if(event.target === this) this.classList.remove('modal-visible')">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Edit Channel</h2>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Channel Name *</label>
+          <input type="text" class="form-control" value="Modern Channel">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Channel Code *</label>
+          <input type="text" class="form-control" value="CH-MOD">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-control" rows="3">Modern retail outlets including supermarkets and convenience stores</textarea>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Status *</label>
+          <select class="form-select">
+            <option value="active" selected>Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" style="margin-right: auto;">Delete Channel</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('modalEditChannel').classList.remove('modal-visible')">Cancel</button>
+        <button class="btn btn-primary">Update Channel</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
