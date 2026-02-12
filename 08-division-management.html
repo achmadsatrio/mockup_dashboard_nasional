@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Divisi - National/Regional Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .modal-visible {
+      display: flex !important;
+    }
+    
+    .modal-hidden {
+      display: none;
+    }
+    
+    .action-link {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-size: 13px;
+      padding: 4px 8px;
+    }
+    
+    .action-link:hover {
+      text-decoration: underline;
+    }
+    
+    .action-link.text-danger {
+      color: var(--danger-color);
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          📊 Taraswin Sales
+        </div>
+        <div style="font-size: 12px; color: var(--gray-400); margin-top: 4px;">
+          National Dashboard
+        </div>
+      </div>
+      
+      <nav class="sidebar-menu">
+        <div class="menu-section">
+          <a href="02-dashboard-home.html" class="menu-item">
+            <span class="menu-icon">🏠</span>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        
+        <div class="menu-section">
+          <div class="menu-section-title">Master Data</div>
+          <a href="08-division-management.html" class="menu-item active">
+            <span class="menu-icon">🏢</span>
+            <span>Master Divisi</span>
+          </a>
+          <a href="03-channel-management.html" class="menu-item">
+            <span class="menu-icon">📋</span>
+            <span>Channels</span>
+          </a>
+          <a href="04-product-management.html" class="menu-item">
+            <span class="menu-icon">📦</span>
+            <span>Products</span>
+          </a>
+          <a href="05-national-roles.html" class="menu-item">
+            <span class="menu-icon">🔐</span>
+            <span>Hak Akses Nasional</span>
+          </a>
+          <a href="05-area-roles.html" class="menu-item">
+            <span class="menu-icon">🔑</span>
+            <span>Hak Akses Area</span>
+          </a>
+          <a href="06-area-regional.html" class="menu-item">
+            <span class="menu-icon">🌍</span>
+            <span>Areas & Regions</span>
+          </a>
+        </div>
+        
+        <div class="menu-section">
+          <div class="menu-section-title">Reports</div>
+          <a href="07-reports.html" class="menu-item">
+            <span class="menu-icon">📊</span>
+            <span>Sales Reports</span>
+          </a>
+        </div>
+      </nav>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Navigation -->
+      <nav class="top-nav">
+        <div class="breadcrumb">
+          <a href="02-dashboard-home.html" class="breadcrumb-item">Dashboard</a>
+          <span class="breadcrumb-separator">/</span>
+          <a href="#" class="breadcrumb-item">Master Data</a>
+          <span class="breadcrumb-separator">/</span>
+          <span class="breadcrumb-item">Divisi</span>
+        </div>
+        
+        <div class="top-nav-actions">
+          <div class="notification-icon">
+            <span>🔔</span>
+          </div>
+          
+          <div class="user-profile">
+            <div class="user-avatar">AN</div>
+            <div>
+              <div style="font-size: 14px; font-weight: 500;">Admin National</div>
+              <div style="font-size: 12px; color: var(--gray-500);">National Level</div>
+            </div>
+            <span style="color: var(--gray-400);">▼</span>
+          </div>
+        </div>
+      </nav>
+      
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Master Divisi</h1>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-primary" onclick="openAddModal()">
+              <span>+</span> Tambah Divisi
+            </button>
+          </div>
+        </div>
+        
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <input type="text" class="search-input" placeholder="cari nama divisi">
+          <button class="btn btn-primary">
+            <span>🔍</span> Cari
+          </button>
+          <button class="btn btn-secondary">
+            <span>↻</span> Reset
+          </button>
+        </div>
+        
+        <!-- Divisions Table -->
+        <div class="card">
+          <div class="card-body" style="padding: 0;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nama Divisi <span style="font-size: 10px; color: var(--gray-400);">↕</span></th>
+                  <th style="width: 150px;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>System</td>
+                  <td>
+                    <a href="#" class="action-link" onclick="openEditModal('System'); return false;">✏️ Ubah</a>
+                    <span style="color: var(--gray-300);">|</span>
+                    <a href="#" class="action-link text-danger" onclick="confirmDelete('System'); return false;">🗑️ Hapus</a>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>Management</td>
+                  <td>
+                    <a href="#" class="action-link" onclick="openEditModal('Management'); return false;">✏️ Ubah</a>
+                    <span style="color: var(--gray-300);">|</span>
+                    <a href="#" class="action-link text-danger" onclick="confirmDelete('Management'); return false;">🗑️ Hapus</a>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>Sales</td>
+                  <td>
+                    <a href="#" class="action-link" onclick="openEditModal('Sales'); return false;">✏️ Ubah</a>
+                    <span style="color: var(--gray-300);">|</span>
+                    <a href="#" class="action-link text-danger" onclick="confirmDelete('Sales'); return false;">🗑️ Hapus</a>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>Marketing</td>
+                  <td>
+                    <a href="#" class="action-link" onclick="openEditModal('Marketing'); return false;">✏️ Ubah</a>
+                    <span style="color: var(--gray-300);">|</span>
+                    <a href="#" class="action-link text-danger" onclick="confirmDelete('Marketing'); return false;">🗑️ Hapus</a>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>Logistics</td>
+                  <td>
+                    <a href="#" class="action-link" onclick="openEditModal('Logistics'); return false;">✏️ Ubah</a>
+                    <span style="color: var(--gray-300);">|</span>
+                    <a href="#" class="action-link text-danger" onclick="confirmDelete('Logistics'); return false;">🗑️ Hapus</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <!-- Pagination -->
+            <div class="pagination">
+              <div class="pagination-info">
+                Total 5 divisi
+              </div>
+              <div class="pagination-controls">
+                <select class="form-select" style="width: 80px;">
+                  <option>10</option>
+                  <option>25</option>
+                  <option>50</option>
+                </select>
+                <span style="margin-left: 8px;">/ halaman</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Modal: Add Division -->
+  <div id="modalAddDivision" class="modal-overlay modal-hidden" onclick="if(event.target === this) closeAddModal()">
+    <div class="modal" style="max-width: 500px;">
+      <div class="modal-header">
+        <div style="width: 100%;">
+          <h2 class="modal-title">Tambah Divisi</h2>
+          <p style="font-size: 13px; color: var(--gray-600); margin-top: 8px;">
+            Isi form dibawah ini untuk membuat divisi baru.
+          </p>
+        </div>
+        <button onclick="closeAddModal()" style="position: absolute; right: 20px; top: 20px; background: none; border: none; font-size: 24px; color: var(--gray-400); cursor: pointer;">×</button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">* Nama Divisi</label>
+          <input type="text" id="addDivisionName" class="form-control" placeholder="Contoh: Finance, HR, Operations, dll">
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeAddModal()">Batal</button>
+        <button class="btn btn-primary">
+          <span>💾</span> Simpan
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal: Edit Division -->
+  <div id="modalEditDivision" class="modal-overlay modal-hidden" onclick="if(event.target === this) closeEditModal()">
+    <div class="modal" style="max-width: 500px;">
+      <div class="modal-header">
+        <div style="width: 100%;">
+          <h2 class="modal-title">Ubah Divisi</h2>
+          <p style="font-size: 13px; color: var(--gray-600); margin-top: 8px;">
+            Ubah nama divisi dibawah ini.
+          </p>
+        </div>
+        <button onclick="closeEditModal()" style="position: absolute; right: 20px; top: 20px; background: none; border: none; font-size: 24px; color: var(--gray-400); cursor: pointer;">×</button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">* Nama Divisi</label>
+          <input type="text" id="editDivisionName" class="form-control" placeholder="Contoh: Finance, HR, Operations, dll">
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeEditModal()">Batal</button>
+        <button class="btn btn-primary">
+          <span>💾</span> Simpan Perubahan
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function openAddModal() {
+      document.getElementById('addDivisionName').value = '';
+      document.getElementById('modalAddDivision').classList.remove('modal-hidden');
+      document.getElementById('modalAddDivision').classList.add('modal-visible');
+    }
+    
+    function closeAddModal() {
+      document.getElementById('modalAddDivision').classList.remove('modal-visible');
+      document.getElementById('modalAddDivision').classList.add('modal-hidden');
+    }
+    
+    function openEditModal(divisionName) {
+      document.getElementById('editDivisionName').value = divisionName;
+      document.getElementById('modalEditDivision').classList.remove('modal-hidden');
+      document.getElementById('modalEditDivision').classList.add('modal-visible');
+    }
+    
+    function closeEditModal() {
+      document.getElementById('modalEditDivision').classList.remove('modal-visible');
+      document.getElementById('modalEditDivision').classList.add('modal-hidden');
+    }
+    
+    function confirmDelete(divisionName) {
+      if (confirm('Apakah Anda yakin ingin menghapus divisi "' + divisionName + '"?')) {
+        alert('Divisi "' + divisionName + '" akan dihapus (simulasi)');
+      }
+    }
+  </script>
+</body>
+</html>
